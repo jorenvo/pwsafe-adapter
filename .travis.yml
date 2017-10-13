@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+before_script:
+  - sudo apt-get install -y automake autoconf gcc
+  - wget https://github.com/nsd20463/pwsafe/archive/master.zip -O /tmp/pwsafe_master.zip
+  - unzip /tmp/pwsafe_master.zip -d /tmp
+  - pushd /tmp/pwsafe-master && aclocal && autoheader && automake --add-missing && autoconf && ./configure && make && sudo make install && popd
+script:
+  - python3 -m unittest discover
+  - tests/acceptance_tests.sh
