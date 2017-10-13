@@ -1,0 +1,24 @@
+* pwsafe_adapter [[https://travis-ci.org/jorenvo/pwsafe-adapter][file:https://travis-ci.org/jorenvo/pwsafe-adapter.svg?branch=master]]
+A program that sits between [[https://github.com/nsd20463/pwsafe][pwsafe]] and [[https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Native_messaging][WebExtensions native
+messaging]]. Meant to be used in conjunction with pwsafe-ff (TODO add
+github/mdn link when published).
+** Description
+This allows a browser extension to communicate with pwsafe using the
+native messaging API. The browser extension starts this program and
+sends the following to stdin:
+
+#+BEGIN_EXAMPLE
+\x2d\x00\x00\x00{"password": "pwd", "website": "mozilla.org"}
+#+END_EXAMPLE
+
+This program will open pwsafe for the =mozilla.org= website and then
+sends =pwd\n= to its stdin. It will then read the reply sent over its
+stdout and encode it before sending it back to the browser extension:
+
+#+BEGIN_EXAMPLE
+\x40\x00\x00\x00{"password": "mozilla_password", "username": "mozilla_username"}
+#+END_EXAMPLE
+
+See the [[tests/acceptance_tests.sh][acceptance tests]] for more examples.
+
+[[doc/sequence_diagram.svg]]
